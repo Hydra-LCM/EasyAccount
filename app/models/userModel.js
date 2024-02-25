@@ -17,7 +17,6 @@ const userSchema = new Schema({
     personalKey: {
         type: String,
         required: true,
-        unique: true,
         default: '-',
     },    
     isActive: {
