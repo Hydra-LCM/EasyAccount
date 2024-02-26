@@ -59,7 +59,7 @@ export const logoutController = async (req, res) => {
     req.body.password = md5(req.body.password);
 
     try {
-        const user = await User.findOne({ username: req.body.username, password: req.body.password });
+        const user = await User.findOne({ username: req.body.username, password: req.body.password }).select('-password');;
         if (!user) {
             return sendResponse(res, 401, "Forbidden", "Invalid username or password");
         }
@@ -74,14 +74,13 @@ export const logoutController = async (req, res) => {
 };
 
 export const confirmEmailController = async (req, res) => {
-    const { username, confirmationCode } = req.body;
+
+    const token = req.headers.authorization;
+    const decodedToken = jwt.decode(token, { complete: true });
 
     try {
-        const user = await User.findOne({ username, confirmationCode });
-        if (!user) {
-            return sendResponse(res, 401, "Forbidden", "Invalid username or confirmation code" );
-        }
-        
+        const user = await User.findById(decodedToken.payload.id).select('-password');
+       
         user.isActive = true;
         await user.save();
 
@@ -92,13 +91,12 @@ export const confirmEmailController = async (req, res) => {
 };
 
 export const resendConfirmationCodeController = async (req, res) => {
-    const { username } = req.body;
+
+    const token = req.headers.authorization;
+    const decodedToken = jwt.decode(token, { complete: true });
 
     try {
-        const user = await User.findOne({ username });
-        if (!user) {
-            return sendResponse(res, 404, "Not Found", "User not found");
-        }
+        const user = await User.findById(decodedToken.payload.id).select('-password');
 
         if (user.isActive) {
             return sendResponse(res, 400, "Bad Request", "User is already active");
@@ -107,6 +105,7 @@ export const resendConfirmationCodeController = async (req, res) => {
         user.confirmationCode = generateVerificationCode(); // Gerar um novo código de confirmação
         await user.save();
         delete user.password;
+        console.log(user);
         await sendConfirmationEmail(user);
         return sendResponse(res, 200, user, "Confirmation code resent successfully");
     } catch (err) {

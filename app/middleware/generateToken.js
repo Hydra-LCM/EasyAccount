@@ -5,7 +5,8 @@ const generateTokenAndPersonalKey = async (user) => {
     const payload = {
         id: user._id,
         username: user.username,
-        role: user.role
+        role: user.role,
+        isActive: user.isActive,
     };
     const salt = await bcrypt.genSalt(6);
     const secretKey = process.env.JWT_SECRET + salt;

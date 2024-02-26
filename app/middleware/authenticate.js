@@ -2,7 +2,7 @@ import jwt from "jsonwebtoken";
 import User from "../models/userModel.js"
 import { sendResponse } from '../utils/response.js';
 
-const authenticateToken = async (req, res, next) => {
+const authenticateToken = async (req, res) => {
     const token = req.headers.authorization;
     if (!token) {
         return sendResponse(res, 401, null, "Authentication token is required" );
@@ -17,7 +17,7 @@ const authenticateToken = async (req, res, next) => {
 
         const user = await User.findById(decodedToken.payload.id);
         if (!user) {
-            return sendResponse(res, 401, "User not found", redirectLogin);
+            return sendResponse(res, 401, "User not found by id with token decod", redirectLogin);
         }
 
         const secretKey = process.env.JWT_SECRET + user.personalKey;
@@ -26,7 +26,6 @@ const authenticateToken = async (req, res, next) => {
                 return sendResponse(res, 403, err.name, err.message);
             }
             req.user = decoded;
-            next();
         });
     } catch (err) {
         return sendResponse(res, 403, err.name, err.message);
