@@ -1,7 +1,7 @@
 {
   "name": "easyaccount",
   "version": "1.0.0",
-  "description": "This project will be responsible for user authentication management.",
+  "description": "EasyAccount serves as the foundation for all future projects within Hydra ecosystem. It provides a standardized authentication solution, reducing development time and effort required for implementing authentication features in new projects.",
   "main": "index.js",
   "type": "module",
   "scripts": {
