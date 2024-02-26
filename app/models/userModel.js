@@ -23,6 +23,9 @@ const userSchema = new Schema({
         type: Boolean,
         default: false
     },
+    confirmationCode: {
+        type: String,
+    }
 });
 
 
