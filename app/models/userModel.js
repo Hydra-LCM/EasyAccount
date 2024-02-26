@@ -12,7 +12,7 @@ const userSchema = new Schema({
     },
     role: {
         type: Number,
-        retuired: true
+        required: true
     },
     personalKey: {
         type: String,
