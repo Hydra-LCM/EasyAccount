@@ -6,11 +6,11 @@ const router = express.Router();
 
 router.post('/login', authController.loginController);
 router.post('/register', authController.registerController);
+router.post('/confirm', authController.confirmEmailController);
 
 router.use(authenticateToken);
 
 router.get('/logout', authController.logoutController);
-router.post('/confirm', authController.confirmEmailController);
 router.get('/resendcode', authController.resendConfirmationCodeController);
 
 export default router;

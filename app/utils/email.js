@@ -11,19 +11,21 @@ const transporter = nodemailer.createTransport({
     }
 });
 
-export const sendConfirmationEmail = async (user) => {
+const sendEmail = async (user, subject, htmlTemplate) => {
     const email = user.username;
     try {
         const mailOptions = {
             from: process.env.EMAIL,
             to: email,
-            subject: 'Confirmação de E-mail',
-            html: `<p>Por favor, digite o código:  <b> ${user.confirmationCode} </b> para confirmar seu e-mail!</p>`
+            subject: subject,
+            html: htmlTemplate(user.username, user.confirmationCode)
         };
 
         await transporter.sendMail(mailOptions);
-        return {data: mailOptions, message: "Confirmation email sent"};
+        return { data: mailOptions, message: "Email sent successfully" };
     } catch (err) {
-        return {data: false, message: err.message};
+        return { data: false, message: err.message };
     }
 };
+
+export default sendEmail;
