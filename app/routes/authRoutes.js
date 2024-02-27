@@ -6,7 +6,9 @@ const router = express.Router();
 
 router.post('/login', authController.loginController);
 router.post('/register', authController.registerController);
-router.post('/confirm', authController.confirmEmailController);
+router.post('/confirmemail', authController.confirmEmailController);
+router.post('/passrecovery', authController.sendPassRecovery);
+router.post('/confirmpassrecovery', authController.confirmRecoveryPassCode);
 
 router.use(authenticateToken);
 

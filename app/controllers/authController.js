@@ -17,7 +17,7 @@ export const registerController = async (req, res) => {
         username: req.body.username,
         password: req.body.password,
         role: req.body.role,
-        confirmationCode: code       
+        confirmationCode: code,       
     });
 
     try {
@@ -89,10 +89,10 @@ export const logoutController = async (req, res) => {
 };
 
 export const confirmEmailController = async (req, res) => {
-    const code = req.body.code.toString();
+    const code = req.body.code;
 
     try {
-        req.action = 'confirmation';
+        req.action = 'confirmationEmail';
         await controlAttemptsMiddleware(req, res);
 
         const user = await User.findOne({ username: req.body.username, confirmationCode: code });
@@ -127,6 +127,47 @@ export const resendConfirmationCodeController = async (req, res) => {
         await user.save();
         await sendConfirmationEmail(user);
         return sendResponse(res, 200, user, "Confirmation code resent successfully");
+    } catch (err) {
+        return sendResponse(res, 400, err.name, err.message);
+    }
+};
+
+export const sendPassRecovery = async (req, res) => {
+    const code = generateVerificationCode();
+
+    try {
+        const foundUser = await User.findOne({ username: req.body.username });
+        if (!foundUser) {
+            return sendResponse(res, 401, "Email not found", "Email is not registered!" );
+        }
+        foundUser.confirmationCode = code;
+        await foundUser.save();
+        const confirmationReturn = await sendEmail(foundUser, "Código de recuperação de senha - HYDRA", recoveryPassTemplate);
+
+        if (confirmationReturn.data) {
+            return sendResponse(res, 200, confirmationReturn.data, "Recovery Pass Email sended");
+        } else {
+            return sendResponse(res, 400, "EmailError", confirmationReturn.message);
+        }
+        
+    } catch (err) {
+        return sendResponse(res, 400, err.name, err.message );
+    }
+};
+
+export const confirmRecoveryPassCode = async (req, res) => {
+    const code = req.body.code;
+
+    try {
+        req.action = 'confirmationPassRecovery';
+        await controlAttemptsMiddleware(req, res);
+
+        const user = await User.findOne({ username: req.body.username, confirmationCode: code }).select('-password');
+        if (user) {
+            return sendResponse(res, 200, user, "Correct code!");
+        } else {
+            return sendResponse(res, 400, code, "Wrong code!");
+        }
     } catch (err) {
         return sendResponse(res, 400, err.name, err.message);
     }
