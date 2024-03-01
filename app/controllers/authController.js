@@ -46,7 +46,7 @@ export const loginController = async (req, res) => {
         req.action = 'login';
         const attempts = await controlAttemptsMiddleware(req, res);
         if (attempts.data) {
-            return sendResponse(res, 200, attempts.data, attempts.message);
+            return sendResponse(res, 400, attempts.data, attempts.message);
         }
 
         const user = await User.findOne({ username: req.body.username, password: req.body.password });
@@ -57,6 +57,10 @@ export const loginController = async (req, res) => {
 
         if (!user.isActive) {
             return sendResponse(res, 401, "Unauthorized", "Please confirm your e-mail");
+        }
+
+        if(user.isPassChangeAllowed){
+            return sendResponse(res, 401, "Unauthorized", "User is blocked to login, but authorized to change password");
         }
 
         const newTokenAndKey = await generateTokenAndPersonalKey(user);
@@ -93,7 +97,10 @@ export const confirmEmailController = async (req, res) => {
 
     try {
         req.action = 'confirmationEmail';
-        await controlAttemptsMiddleware(req, res);
+        const attempts = await controlAttemptsMiddleware(req, res);
+        if (attempts.data) {
+            return sendResponse(res, 400, attempts.data, attempts.message);
+        }
 
         const user = await User.findOne({ username: req.body.username, confirmationCode: code });
         if (user) {
@@ -121,7 +128,10 @@ export const resendConfirmationCodeController = async (req, res) => {
         }
 
         req.action = 'resend';
-        await controlAttemptsMiddleware(req, res);
+        const attempts = await controlAttemptsMiddleware(req, res);
+        if (attempts.data) {
+            return sendResponse(res, 400, attempts.data, attempts.message);
+        }
 
         user.confirmationCode = generateVerificationCode();
         await user.save();
@@ -136,11 +146,18 @@ export const sendPassRecovery = async (req, res) => {
     const code = generateVerificationCode();
 
     try {
-        const foundUser = await User.findOne({ username: req.body.username });
+        const foundUser = await User.findOne({ username: req.body.username }).select('-password');
         if (!foundUser) {
             return sendResponse(res, 401, "Email not found", "Email is not registered!" );
         }
-        foundUser.confirmationCode = code;
+
+        req.action = 'resendRecovery';
+        const attempts = await controlAttemptsMiddleware(req, res);
+        if (attempts.data) {
+            return sendResponse(res, 400, attempts.data, attempts.message);
+        }
+
+        foundUser.recoveryCode = code;
         await foundUser.save();
         const confirmationReturn = await sendEmail(foundUser, "Código de recuperação de senha - HYDRA", recoveryPassTemplate);
 
@@ -160,13 +177,22 @@ export const confirmRecoveryPassCode = async (req, res) => {
 
     try {
         req.action = 'confirmationPassRecovery';
-        await controlAttemptsMiddleware(req, res);
+        const attempts = await controlAttemptsMiddleware(req, res);
+        if (attempts.data) {
+            return sendResponse(res, 400, attempts.data, attempts.message);
+        }
 
-        const user = await User.findOne({ username: req.body.username, confirmationCode: code }).select('-password');
+        const user = await User.findOne({ username: req.body.username }).select('-password');
         if (user) {
-            return sendResponse(res, 200, user, "Correct code!");
+            if (user.isRecoveryCodeRecent()) { 
+                user.isPassChangeAllowed = true;
+                user.save();
+                return sendResponse(res, 200, "Sucess", "Authorized to change pass");
+            } else {
+                return sendResponse(res, 401, "Expired", "Expirated code, ask another");
+            }
         } else {
-            return sendResponse(res, 400, code, "Wrong code!");
+            return sendResponse(res, 401, code, "Wrong code!");
         }
     } catch (err) {
         return sendResponse(res, 400, err.name, err.message);
