@@ -198,3 +198,29 @@ export const confirmRecoveryPassCode = async (req, res) => {
         return sendResponse(res, 400, err.name, err.message);
     }
 };
+
+export const userRecoveryPass = async (req, res) => {
+    try {
+        const user = await User.findOne({ username: req.body.username }).select('-password');
+        if (user) {
+            if (user.isPassChangeAllowed()) {
+                const password1 = req.body.password;
+                const password2 = req.body.confirmpassword;
+            
+                if(password1 != password2){
+                    return sendResponse(res, 400, "Unauthorized", "Passwords didnt match!");
+                }
+                user.password = md5(password1);
+                user.isPassChangeAllowed = false;
+                user.save();
+                return sendResponse(res, 200, "Sucess", "Authorized to change pass");
+            } else {
+                return sendResponse(res, 401, "Unauthorized", "User not allowed to change pass");
+            }
+        } else {
+            return sendResponse(res, 401, code, "Wrong code!");
+        }
+    } catch (err) {
+        return sendResponse(res, 400, err.name, err.message);
+    }
+};

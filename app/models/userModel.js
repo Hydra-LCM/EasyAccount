@@ -34,6 +34,10 @@ const userSchema = new Schema({
     },
     recoveryCodeTimestamp: {
         type: Date,
+    },
+    isPassChangeAllowed: {
+        type: Boolean,
+        default: false
     }
 });
 
