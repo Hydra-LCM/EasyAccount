@@ -1,7 +1,7 @@
 import { model, Schema } from 'mongoose';
 
 const userSchema = new Schema({
-    username: { //email
+    username: { // email
         type: String,
         unique: true,
         required: true
@@ -17,23 +17,23 @@ const userSchema = new Schema({
     personalKey: {
         type: String,
         required: true,
-        default: '-',
-    },    
+        default: '-'
+    },
     isActive: {
         type: Boolean,
         default: false
     },
     confirmationCode: {
-        type: String,
+        type: String
     },
     confirmationCodeTimestamp: {
-        type: Date,
+        type: Date
     },
     recoveryCode: {
-        type: String,
+        type: String
     },
     recoveryCodeTimestamp: {
-        type: Date,
+        type: Date
     },
     isPassChangeAllowed: {
         type: Boolean,
@@ -45,27 +45,27 @@ const userSchema = new Schema({
     }
 });
 
-userSchema.pre('save', function(next) {
+userSchema.pre('save', function (next) {
     if (this.isModified('confirmationCode')) {
         this.confirmationCodeTimestamp = new Date();
     }
     next();
 });
 
-userSchema.pre('save', function(next) {
+userSchema.pre('save', function (next) {
     if (this.isModified('recoveryCode')) {
         this.recoveryCodeTimestamp = new Date();
     }
     next();
 });
 
-userSchema.methods.isConfirmationCodeRecent = function() {
+userSchema.methods.isConfirmationCodeRecent = function () {
     const currentTime = new Date();
     const fiveMinutesAgo = new Date(currentTime.getTime() - (5 * 60000)); // 5 minutes ago
     return this.confirmationCodeTimestamp && this.confirmationCodeTimestamp > fiveMinutesAgo;
 };
 
-userSchema.methods.isRecoveryCodeRecent = function() {
+userSchema.methods.isRecoveryCodeRecent = function () {
     const currentTime = new Date();
     const fiveMinutesAgo = new Date(currentTime.getTime() - (5 * 60000)); // 5 minutes ago
     return this.recoveryCodeTimestamp && this.recoveryCodeTimestamp > fiveMinutesAgo;
