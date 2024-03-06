@@ -38,6 +38,10 @@ const userSchema = new Schema({
     isPassChangeAllowed: {
         type: Boolean,
         default: false
+    },
+    language: {
+        type: String,
+        default: 'pt'
     }
 });
 
