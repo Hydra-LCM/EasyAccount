@@ -5,7 +5,7 @@ const loadEmailTemplate = (templateFileName) => {
     return fs.readFileSync(templatePath, 'utf8');
 };
 
-export const confirmationTemplate = (userName, confirmationCode, lang = 'pt') => {
+export const confirmationTemplate = (userName, confirmationCode, lang) => {
     let templateFileName = lang === 'en' ? 'confirmation_email_en.html' : 'confirmation_email_pt.html';
     console.log(templateFileName);
     const emailTemplate = loadEmailTemplate(templateFileName);
@@ -13,7 +13,7 @@ export const confirmationTemplate = (userName, confirmationCode, lang = 'pt') =>
     return emailTemplate.replace('${userName}', userName).replace('${confirmationCode}', confirmationCode);
 };
 
-export const recoveryPassTemplate = (userName, recoveryCode, lang = 'pt') => {
+export const recoveryPassTemplate = (userName, recoveryCode, lang) => {
     let templateFileName = lang === 'en' ? 'recovery_email_en.html' : 'recovery_email_pt.html';
     const emailTemplate = loadEmailTemplate(templateFileName);
     
