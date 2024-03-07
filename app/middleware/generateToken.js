@@ -11,7 +11,8 @@ const generateTokenAndPersonalKey = async (user) => {
     const salt = await bcrypt.genSalt(6);
     const secretKey = process.env.JWT_SECRET + salt;
     const token = jwt.sign(payload, secretKey, { expiresIn: process.env.TOKEN_LIFE });
-    return {token: token, personalKey: salt};
+    const tokenBearer = 'Bearer ' + token;
+    return {token: tokenBearer, personalKey: salt};
 };
 
 export default generateTokenAndPersonalKey;
