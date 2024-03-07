@@ -23,6 +23,7 @@ if (process.env.NODE_ENV === 'dev') {
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public'));
 app.use('/', authRoutes);
+app.use('/', userRoutes);
 
 export const startServer = async () => {
     await connectToDatabase();
