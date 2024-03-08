@@ -14,13 +14,23 @@ const transporter = nodemailer.createTransport({
 const sendEmail = async (user, subject, htmlTemplate) => {
     const email = user.username;
     try {
-        const mailOptions = {
+        let mailOptions = {
             from: process.env.EMAIL,
             to: email,
             subject: subject,
-            html: htmlTemplate(user.username, user.confirmationCode, user.language)
+            html: ''
         };
-
+        switch (htmlTemplate.name) {
+            case 'recoveryPassTemplate':
+                mailOptions.html = htmlTemplate(user.username, user.recoveryCode, user.language);
+                break;
+            case 'confirmationTemplate':
+                mailOptions.html = htmlTemplate(user.username, user.confirmationCode, user.language);
+                break;
+            default:
+                //
+                break;
+        }
         await transporter.sendMail(mailOptions);
         return { data: mailOptions, message: "Email sent successfully" };
     } catch (err) {
