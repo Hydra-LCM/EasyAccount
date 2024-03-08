@@ -17,7 +17,7 @@ Warning: Before start development, please read the `development patterns` on [tr
 
 
 <a name="windows"></a>
-### Windows
+### Windows:
 > ##### How start development:
 **Requirements:**
 [node.js v20](https://nodejs.org/en/download/) and [mongodb v7.0](https://fastdl.mongodb.org/windows/mongodb-windows-x86_64-7.0.5-signed.msi).
@@ -68,7 +68,7 @@ node index.js
   ```
 
 <a name="linux"></a>
-### Linux
+### Linux:
 > #####  How start development:
 **Requirements:**  [node.js v20](https://nodejs.org/en/download/) and [mongodb v7.0](https://www.mongodb.com/try/download/community).
 
@@ -105,7 +105,7 @@ Change `NODE_ENV='prod'` variable in `.env` to  `NODE_ENV='dev'`
 Acess: http://localhost:3000/api-docs/
 
 
-## Authors
+## Authors:
 - [Katson](https://github.com/katson1)
 - [Arizinho](https://github.com/arimateia98)
 - [Lucas](https://github.com/lucasjarrier)
