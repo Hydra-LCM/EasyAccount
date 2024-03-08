@@ -7,9 +7,9 @@ EasyAccount serves as the foundation for all future projects within Hydra ecosys
 > [How to use the API:](#routes)
 
 <a name="dev"></a>
-## 🛠️ How to start development:
+## How to start development:
 
-⚠️ Warning: Before start development, please read the `development patterns` on [trello](https://trello.com/b/R1QyP0ea/hydra)!
+Warning: Before start development, please read the `development patterns` on [trello](https://trello.com/b/R1QyP0ea/hydra)!
 
 > [Windows](#windows)
 
@@ -17,9 +17,9 @@ EasyAccount serves as the foundation for all future projects within Hydra ecosys
 
 
 <a name="windows"></a>
-### 🖥 Windows
+### Windows
 > ##### How start development:
-📋 **Requirements:**
+**Requirements:**
 [node.js v20](https://nodejs.org/en/download/) and [mongodb v7.0](https://fastdl.mongodb.org/windows/mongodb-windows-x86_64-7.0.5-signed.msi).
 
 Clone the project.
@@ -27,18 +27,18 @@ Clone the project.
 Install required packages into the project. In the project folder, use the following command in the terminal:
 
   ```
-$ npm install
+npm install
   ```
 
 Copy the `.env.example` to `.env`:
   ```
-$ cp .env.example .env
+cp .env.example .env
   ```
 
 Run the mongodb:
 
   ```
-$ mongod
+mongod
   ```
 <blockquote> 
 <details>
@@ -64,48 +64,48 @@ $ mongod
 Run the project:
 
   ```
-$ node index.js
+node index.js
   ```
 
 <a name="linux"></a>
-### 🐧 Linux
+### Linux
 > #####  How start development:
-📋 **Requirements:**  [node.js v20](https://nodejs.org/en/download/) and [mongodb v7.0](https://www.mongodb.com/try/download/community).
+**Requirements:**  [node.js v20](https://nodejs.org/en/download/) and [mongodb v7.0](https://www.mongodb.com/try/download/community).
 
 Clone the project.
 
 Install required packages into the project. In the project folder, use the following command in the terminal:
 
   ```
-$ npm install
+npm install
   ```
 
 Copy the `.env.example` to `.env`:
   ```
-$ cp .env.example .env
+cp .env.example .env
   ```
 
 Run the mongodb:
 
   ```
-$ mongod
+mongod
   ```
 
 Run the project (in the project folder, use the following command):
 
   ```
-$ node index.js
+node index.js
   ```
 
 <a name="routes"></a>
-## 🚀 How to use the API (routes):
+## How to use the API (routes):
 
 Change `NODE_ENV='prod'` variable in `.env` to  `NODE_ENV='dev'`
 
 Acess: `http://localhost:3000/api-docs/`
 
 
-## ✒️Authors
+## Authors
 - [Katson](https://github.com/katson1)
 - [Arizinho](https://github.com/arimateia98)
 - [Lucas](https://github.com/lucasjarrier)
