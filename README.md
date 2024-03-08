@@ -102,7 +102,7 @@ node index.js
 
 Change `NODE_ENV='prod'` variable in `.env` to  `NODE_ENV='dev'`
 
-Acess: `http://localhost:3000/api-docs/`
+Acess: http://localhost:3000/api-docs/
 
 
 ## Authors
