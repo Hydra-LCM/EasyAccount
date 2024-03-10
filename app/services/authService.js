@@ -2,15 +2,14 @@ import User from "../models/userModel.js";
 import md5 from "md5";
 import jwt from 'jsonwebtoken';
 import generateTokenAndPersonalKey from "../middleware/generateToken.js";
-import { sendResponse } from "../utils/response.js";
 import { controlAttemptsMiddleware } from '../middleware/controlAttempts.js';
 
-export const login = async (req, res) => {
+export const login = async (req) => {
     req.body.password = md5(req.body.password);
     req.action = 'login';
-    const attempts = await controlAttemptsMiddleware(req, res);
+    const attempts = await controlAttemptsMiddleware(req);
     if (attempts.data) {
-        return { statusCode: 400, data: attempts.data, message: attempts.message }
+        return { statusCode: 429, data: attempts.data, message: attempts.message }
     }
 
     const user = await User.findOne({ username: req.body.username, password: req.body.password });
@@ -36,8 +35,8 @@ export const login = async (req, res) => {
 };
 
 
-export const logout = async (req, res) => {
-    const authHeader = req.headers.authorization;
+export const logout = async (authorization) => {
+    const authHeader = authorization;
     const parts = authHeader.split(' ');
     const token = parts[1];
     const decodedToken = jwt.decode(token, { complete: true });

@@ -3,7 +3,7 @@ import * as authService from "../services/authService.js";
 
 export const loginController = async (req, res) => {
     try {
-        const { statusCode, data, message } = await authService.login(req.body);
+        const { statusCode, data, message } = await authService.login(req);
         sendResponse(res, statusCode, data, message);
     } catch (error) {
         sendResponse(res, error.statusCode, error.name, error.message);

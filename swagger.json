@@ -65,7 +65,10 @@
                   }
                 },
                 "400": {
-                  "description": "Bad request or too many login attempts"
+                  "description": "Bad request"
+                },
+                "429": {
+                  "description": "Too many attempts"
                 },
                 "401": {
                   "description": "Unauthorized, user needs to confirm email or is blocked but can change password"
@@ -86,8 +89,8 @@
                 "200": {
                   "description": "Logged out successfully"
                 },
-                "401": {
-                  "description": "Invalid username or password"
+                "403": {
+                  "description": "Couldn't find user with token"
                 },
                 "400": {
                   "description": "Bad request"
@@ -176,7 +179,13 @@
                   "description": "Email confirmed successfully!"
                 },
                 "400": {
-                  "description": "Bad request or wrong code"
+                  "description": "Bad request"
+                },
+                "429": {
+                  "description": "Too many attempts"
+                },
+                "404": {
+                  "description": "Wrong code!"
                 }
               }
             }
@@ -220,10 +229,16 @@
                   "description": "Password changed successfully"
                 },
                 "400": {
-                  "description": "Passwords didn't match"
+                  "description": "Bad request"
                 },
                 "401": {
-                  "description": "Unauthorized, user not allowed to change password or user not found"
+                  "description": "Password didnt match"
+                },
+                "403": {
+                  "description": "User not allowed to change password"
+                },
+                "404": {
+                  "description": "User not found"
                 }
               }
             }
@@ -257,9 +272,12 @@
                   "description": "Recovery Pass Email sent"
                 },
                 "400": {
-                  "description": "Email error or too many attempts"
+                  "description": "Bad request or email sending error"
                 },
-                "401": {
+                "429": {
+                  "description": "Too many attempts"
+                },
+                "404": {
                   "description": "Email not found or not registered"
                 }
               }
@@ -298,11 +316,17 @@
                 "200": {
                   "description": "Authorized to change password"
                 },
-                "401": {
-                  "description": "Expired code or wrong code"
+                "404": {
+                  "description": "Wrong code"
                 },
                 "400": {
-                  "description": "Bad request or too many attempts"
+                  "description": "Bad request"
+                },
+                "410": {
+                  "description": "Code expired"
+                },
+                "429": {
+                  "description": "Too many attempts"
                 }
               }
             }
@@ -318,7 +342,13 @@
                   "description": "Confirmation code resent successfully"
                 },
                 "400": {
-                  "description": "Bad request, user already active or too many attempts"
+                  "description": "Bad request"
+                },
+                "409": {
+                  "description": "User already active"
+                },
+                "429": {
+                  "description": "Too many attempts"
                 }
               }
             }
