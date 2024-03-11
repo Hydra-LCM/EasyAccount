@@ -35,7 +35,7 @@ Copy the `.env.example` to `.env`:
 cp .env.example .env
   ```
 
-Run the mongodb:
+Run the mongodb in another terminal:
 
   ```
 mongod
@@ -85,7 +85,7 @@ Copy the `.env.example` to `.env`:
 cp .env.example .env
   ```
 
-Run the mongodb:
+Run the mongodb in another terminal:
 
   ```
 mongod
