@@ -41,9 +41,6 @@ export const logout = async (authorization) => {
     const token = parts[1];
     const decodedToken = jwt.decode(token, { complete: true });
     const user = await User.findById(decodedToken.payload.id).select('-password');
-    if (!user) {
-        return { statusCode: 403, data: "Forbidden", message: "Invalid username or password" };
-    }
     user.personalKey = "-";
     await user.save();
     return { statusCode: 200, data: null, message: "You have been logged out successfully" };

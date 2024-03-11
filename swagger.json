@@ -89,9 +89,6 @@
                 "200": {
                   "description": "Logged out successfully"
                 },
-                "403": {
-                  "description": "Couldn't find user with token"
-                },
                 "400": {
                   "description": "Bad request"
                 }
