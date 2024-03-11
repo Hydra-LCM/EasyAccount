@@ -27,7 +27,7 @@ Clone the project.
 Install required packages into the project. In the project folder, use the following command in the terminal:
 
   ```
-npm install
+npm start
   ```
 
 Copy the `.env.example` to `.env`:
@@ -94,7 +94,7 @@ mongod
 Run the project (in the project folder, use the following command):
 
   ```
-node index.js
+npm start
   ```
 
 <a name="routes"></a>
