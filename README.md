@@ -42,7 +42,7 @@ mongod
   ```
 <blockquote> 
 <details>
-  <summary> Click here if you're having problems with the command "mongod" </summary>
+  <summary> Click here if you're having problems with the command "mongod" (on Windows)</summary>
   <blockquote> 
    
     Reinstall MongoDB as usual and wait until Compass appears. If it doesn't, uninstall and reinstall. 
