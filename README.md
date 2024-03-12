@@ -18,9 +18,13 @@ Warning: Before start development, please read the `development patterns` on [tr
 
 <a name="windows"></a>
 ### Windows:
-> ##### How start development:
+> ##### How start development on Windows:
 **Requirements:**
-[node.js v20](https://nodejs.org/en/download/) and [mongodb v7.0](https://fastdl.mongodb.org/windows/mongodb-windows-x86_64-7.0.5-signed.msi).
+[node.js v20](https://nodejs.org/en/download/)
+
+[mongodb v7.0](https://fastdl.mongodb.org/windows/mongodb-windows-x86_64-7.0.5-signed.msi)
+or
+[docker v25.0](https://www.docker.com/products/docker-desktop/)
 
 Clone the project.
 
@@ -34,12 +38,11 @@ Copy the `.env.example` to `.env`:
   ```
 cp .env.example .env
   ```
-
-Run the mongodb in another terminal:
-
+If you are using local **mongodb**, run this command in another terminal:
   ```
 mongod
   ```
+
 <blockquote> 
 <details>
   <summary> Click here if you're having problems with the command "mongod" (on Windows)</summary>
@@ -61,6 +64,11 @@ mongod
 </details>
 </blockquote>
 
+If you are using **docker**, run this command in another terminal:
+  ```
+docker-composer up -d
+  ```
+
 Run the project:
 
   ```
@@ -69,8 +77,13 @@ node index.js
 
 <a name="linux"></a>
 ### Linux:
-> #####  How start development:
-**Requirements:**  [node.js v20](https://nodejs.org/en/download/) and [mongodb v7.0](https://www.mongodb.com/try/download/community).
+> #####  How start development on Linux:
+**Requirements:**
+[node.js v20](https://nodejs.org/en/download/)
+
+[mongodb v7.0](https://fastdl.mongodb.org/windows/mongodb-windows-x86_64-7.0.5-signed.msi)
+or
+[docker v25.0](https://www.docker.com/products/docker-desktop/)
 
 Clone the project.
 
@@ -85,10 +98,14 @@ Copy the `.env.example` to `.env`:
 cp .env.example .env
   ```
 
-Run the mongodb in another terminal:
+If you are using local **mongodb**, run this command in another terminal:
 
   ```
 mongod
+  ```
+If you are using **docker**, run this command in another terminal:
+  ```
+docker-composer up -d
   ```
 
 Run the project (in the project folder, use the following command):
