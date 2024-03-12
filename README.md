@@ -18,7 +18,7 @@ Warning: Before start development, please read the `development patterns` on [tr
 
 <a name="windows"></a>
 ### Windows:
-> ##### How start development:
+> ##### How start development on Windows:
 **Requirements:**
 [node.js v20](https://nodejs.org/en/download/)
 
@@ -77,7 +77,7 @@ node index.js
 
 <a name="linux"></a>
 ### Linux:
-> #####  How start development:
+> #####  How start development on Linux:
 **Requirements:**
 [node.js v20](https://nodejs.org/en/download/)
 
