@@ -64,7 +64,7 @@ mongod
 </details>
 </blockquote>
 
-If you are using **docker**, run this command in another terminal:
+If you are using **docker**, run this command:
   ```
 docker-composer up -d
   ```
@@ -103,7 +103,7 @@ If you are using local **mongodb**, run this command in another terminal:
   ```
 mongod
   ```
-If you are using **docker**, run this command in another terminal:
+If you are using **docker**, run this command:
   ```
 docker-composer up -d
   ```
