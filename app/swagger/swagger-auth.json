@@ -1,0 +1,92 @@
+{
+  "paths": {
+    "/login": {
+      "post": {
+        "tags": [
+          "Authentication"
+        ],
+        "summary": "User login",
+        "description": "Login de usuário com username e password. Controla tentativas de login e verifica se o usuário está ativo ou bloqueado para login.",
+        "requestBody": {
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "username": {
+                    "type": "string",
+                    "description": "Nome de usuário"
+                  },
+                  "password": {
+                    "type": "string",
+                    "description": "Senha do usuário"
+                  }
+                },
+                "required": [
+                  "username",
+                  "password"
+                ],
+                "example": {
+                  "username": "user@example.com",
+                  "password": "password123"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "User logged successfully",
+            "content": {
+              "application/x-www-form-urlencoded": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "token": {
+                      "type": "string",
+                      "description": "JWT token for the user"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "429": {
+            "description": "Too many attempts"
+          },
+          "401": {
+            "description": "Unauthorized, user needs to confirm email or is blocked but can change password"
+          },
+          "403": {
+            "description": "Forbidden, invalid username or password"
+          }
+        }
+      }
+    },
+    "/logout": {
+      "get": {
+        "tags": [
+          "Authentication"
+        ],
+        "summary": "User logout",
+        "description": "Realiza o logout do usuário, invalidando sua chave pessoal.",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Logged out successfully"
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    }
+  }
+}
