@@ -9,7 +9,7 @@ EasyAccount serves as the foundation for all future projects within Hydra ecosys
 <a name="dev"></a>
 ## How to start development:
 
-Warning: Before start development, please read the `development patterns` on [trello](https://trello.com/b/R1QyP0ea/hydra)!
+Warning: Before start development, please read the `development patterns` on [trello](https://trello.com/b/qx2R8rNb/easyaccount)!
 
 > [Windows](#windows)
 
@@ -64,7 +64,7 @@ mongod
 </details>
 </blockquote>
 
-If you are using **docker**, run this command in another terminal:
+If you are using **docker**, run this command:
   ```
 docker-composer up -d
   ```
@@ -103,7 +103,7 @@ If you are using local **mongodb**, run this command in another terminal:
   ```
 mongod
   ```
-If you are using **docker**, run this command in another terminal:
+If you are using **docker**, run this command:
   ```
 docker-composer up -d
   ```
