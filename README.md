@@ -124,5 +124,5 @@ Acess: http://localhost:3000/api-docs/
 
 ## Authors:
 - [Katson](https://github.com/katson1)
-- [Arizinho](https://github.com/arimateia98)
+- [Arimateia](https://github.com/arimateia98)
 - [Lucas](https://github.com/lucasjarrier)
