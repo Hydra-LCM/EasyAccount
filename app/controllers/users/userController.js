@@ -2,17 +2,17 @@ import * as userService from '../../services/userService.js';
 import { sendResponse } from "../../utils/response.js";
 
 export const registerController = async (req, res) => {
-    try{
+    try {
         const { statusCode, data, message } = await userService.userRegister(req);
         sendResponse(res, statusCode, data, message);
     } catch (error) {
         sendResponse(res, error.statusCode, error.name, error.message);
     }
-    
+
 };
 
 export const confirmEmailController = async (req, res) => {
-    try{
+    try {
         const { statusCode, data, message } = await userService.confirmEmail(req);
         sendResponse(res, statusCode, data, message);
     } catch (error) {
@@ -21,7 +21,7 @@ export const confirmEmailController = async (req, res) => {
 };
 
 export const resendConfirmationCodeController = async (req, res) => {
-    try{
+    try {
         const { statusCode, data, message } = await userService.resendConfirmationCode(req);
         sendResponse(res, statusCode, data, message);
     } catch (error) {
@@ -30,7 +30,7 @@ export const resendConfirmationCodeController = async (req, res) => {
 };
 
 export const sendPassRecovery = async (req, res) => {
-    try{
+    try {
         const { statusCode, data, message } = await userService.sendPassRecovery(req);
         sendResponse(res, statusCode, data, message);
     } catch (error) {
@@ -39,7 +39,7 @@ export const sendPassRecovery = async (req, res) => {
 };
 
 export const confirmRecoveryPassCode = async (req, res) => {
-    try{
+    try {
         const { statusCode, data, message } = await userService.confirmRecoveryPassCode(req);
         sendResponse(res, statusCode, data, message);
     } catch (error) {
