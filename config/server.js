@@ -12,7 +12,7 @@ dotenv.config();
 const app = express();
 const port = process.env.PORT || 3000;
 
-export const startServer = async () => {
+const startServer = async () => {
     await connectToDatabase();
     configureCronJob();
 
@@ -37,3 +37,5 @@ export const startServer = async () => {
         console.log(`Server started on port ${port}`);
     });
 };
+
+export default startServer;
