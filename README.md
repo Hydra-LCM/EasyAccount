@@ -23,9 +23,7 @@ Warning: Before start development, please read the `development patterns` on [tr
 
 - [node.js v20](https://nodejs.org/en/download/)
 
-- [mongodb v7.0](https://fastdl.mongodb.org/windows/mongodb-windows-x86_64-7.0.5-signed.msi)
-  or
-- [docker v25.0](https://www.docker.com/products/docker-desktop/)
+- [mongodb v7.0](https://fastdl.mongodb.org/windows/mongodb-windows-x86_64-7.0.5-signed.msi) or [docker v25.0](https://www.docker.com/products/docker-desktop/)
 
 Clone the project.
 
@@ -83,9 +81,7 @@ node index.js
 
 - [node.js v20](https://nodejs.org/en/download/)
 
-- [mongodb v7.0](https://fastdl.mongodb.org/windows/mongodb-windows-x86_64-7.0.5-signed.msi)
-  or
-- [docker v25.0](https://www.docker.com/products/docker-desktop/)
+- [mongodb v7.0](https://fastdl.mongodb.org/windows/mongodb-windows-x86_64-7.0.5-signed.msi) or [docker v25.0](https://www.docker.com/products/docker-desktop/)
 
 Clone the project.
 
