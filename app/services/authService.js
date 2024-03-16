@@ -1,8 +1,8 @@
 import User from "../models/userModel.js";
 import md5 from "md5";
 import jwt from 'jsonwebtoken';
-import generateTokenAndPersonalKey from "../middleware/generateToken.js";
-import { controlAttemptsMiddleware } from '../middleware/controlAttempts.js';
+import generateTokenAndPersonalKey from "../utils/generateToken.js";
+import controlAttemptsMiddleware from '../middleware/controlAttempts.js';
 
 export const login = async (req) => {
     req.body.password = md5(req.body.password);

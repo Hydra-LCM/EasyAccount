@@ -1,4 +1,4 @@
-import { sendResponse } from "../utils/response.js";
+import sendResponse  from "../utils/response.js";
 import * as authService from "../services/authService.js";
 
 export const loginController = async (req, res) => {

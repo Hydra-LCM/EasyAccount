@@ -1,11 +1,11 @@
 import express from "express";
-import { connectToDatabase } from './db.js';
+import connectToDatabase from './db.js';
 import dotenv from 'dotenv';
 import { configureCronJob } from "./jobs.js";
 import swaggerUI from 'swagger-ui-express';
 import userRoutes from "../app/routes/userRoutes.js";
 import authRoutes from "../app/routes/authRoutes.js";
-import { processSwaggerDocuments } from "./swagger.js";
+import processSwaggerDocuments from "./swagger.js";
 
 dotenv.config();
 

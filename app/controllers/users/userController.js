@@ -1,5 +1,5 @@
 import * as userService from '../../services/userService.js';
-import { sendResponse } from "../../utils/response.js";
+import sendResponse  from "../../utils/response.js";
 
 export const registerController = async (req, res) => {
     try {
