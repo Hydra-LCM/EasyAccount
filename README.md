@@ -71,7 +71,7 @@ docker-composer up -d
 Run the project:
 
   ```
-node index.js
+npm start
   ```
 
 <a name="linux"></a>
