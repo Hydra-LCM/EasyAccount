@@ -1,4 +1,4 @@
-import { sendResponse } from '../utils/response.js';
+import sendResponse  from '../utils/response.js';
 
 export const validateEmailInput = (req, res, next) => {
     const { username } = req.body;

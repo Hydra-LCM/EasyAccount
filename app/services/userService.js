@@ -1,16 +1,15 @@
 import User from "../models/userModel.js";
 import jwt from "jsonwebtoken";
 import md5 from "md5";
-import { sendResponse } from "../utils/response.js";
 import sendEmail from '../utils/email.js';
-import { generateCode as generateVerificationCode } from "../utils/generateCode.js";
+import generateCode from "../utils/generateCode.js";
 import { confirmationTemplate } from "../assets/emails/emailsTemplate.js";
-import { controlAttemptsMiddleware } from '../middleware/controlAttempts.js'
+import controlAttemptsMiddleware from '../middleware/controlAttempts.js'
 import { recoveryPassTemplate } from "../assets/emails/emailsTemplate.js";
 
 export const userRegister = async (req) => {
     req.body.password = md5(req.body.password);
-    const code = generateVerificationCode();
+    const code = generateCode();
 
     const newUser = new User({
         username: req.body.username,
@@ -72,7 +71,7 @@ export const resendConfirmationCode = async (req) => {
         return { statusCode: 429, data: attempts.data, message: attempts.message}
     }
 
-    user.confirmationCode = generateVerificationCode();
+    user.confirmationCode = generateCode();
     await user.save();
     await sendConfirmationEmail(user);
     return { statusCode: 200, data: user, message: "Confirmation code resent successfully"}
@@ -80,7 +79,7 @@ export const resendConfirmationCode = async (req) => {
 };
 
 export const sendPassRecovery = async (req) => {
-    const code = generateVerificationCode();
+    const code = generateCode();
 
     const foundUser = await User.findOne({ username: req.body.username }).select('-password');
     if (!foundUser) {

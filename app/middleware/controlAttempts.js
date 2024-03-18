@@ -3,7 +3,7 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-export const controlAttemptsMiddleware = async (req) => {
+const controlAttemptsMiddleware = async (req) => {
 
     const limitAttempts = process.env.LIMIT_ATTEMPTS;
     const timeAttempts = process.env.TIME_ATTEMPTS;
@@ -24,3 +24,5 @@ export const controlAttemptsMiddleware = async (req) => {
     return {data: false};
 
 };
+
+export default controlAttemptsMiddleware;

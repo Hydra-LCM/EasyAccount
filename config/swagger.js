@@ -2,7 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
-export const processSwaggerDocuments = () => {
+const processSwaggerDocuments = () => {
     const __dirname = path.dirname(fileURLToPath(import.meta.url));
     const controllersDir = path.join(__dirname, '../app/swagger');
     const controllerFiles = fs.readdirSync(controllersDir);
@@ -32,3 +32,5 @@ export const processSwaggerDocuments = () => {
 
     return { baseSwaggerDocument, aggregatedPaths };
 };
+
+export default processSwaggerDocuments;

@@ -1,4 +1,4 @@
-export function generateCode() {
+const generateCode = () => {
     const length = 6;
     let code = '';
 
@@ -8,3 +8,5 @@ export function generateCode() {
 
     return code;
 }
+
+export default generateCode;
