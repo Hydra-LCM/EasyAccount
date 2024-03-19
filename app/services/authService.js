@@ -4,15 +4,15 @@ import jwt from 'jsonwebtoken';
 import generateTokenAndPersonalKey from "../utils/generateToken.js";
 import controlAttemptsMiddleware from '../middleware/controlAttempts.js';
 
-export const login = async (req) => {
-    req.body.password = md5(req.body.password);
-    req.action = 'login';
-    const attempts = await controlAttemptsMiddleware(req);
+export const login = async (username, password) => {
+    const passwordMd5 = md5(password);
+    const action = 'login';
+    const attempts = await controlAttemptsMiddleware(username, action);
     if (attempts.data) {
         return { statusCode: 429, data: attempts.data, message: attempts.message }
     }
 
-    const user = await User.findOne({ username: req.body.username, password: req.body.password });
+    const user = await User.findOne({ username: username, password: passwordMd5 });
 
     if (!user) {
         return { statusCode: 403, data: "Forbidden", message: "Invalid username or password" }

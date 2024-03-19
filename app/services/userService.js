@@ -7,18 +7,18 @@ import { confirmationTemplate } from "../assets/emails/emailsTemplate.js";
 import controlAttemptsMiddleware from '../middleware/controlAttempts.js'
 import { recoveryPassTemplate } from "../assets/emails/emailsTemplate.js";
 
-export const userRegister = async (req) => {
-    req.body.password = md5(req.body.password);
+export const userRegister = async (username, password, role) => {
+    const passwordMd5 = md5(password);
     const code = generateCode();
 
     const newUser = new User({
-        username: req.body.username,
-        password: req.body.password,
-        role: req.body.role,
+        username: username,
+        password: passwordMd5,
+        role: role,
         confirmationCode: code,       
     });
 
-    const foundUser = await User.findOne({ username: req.body.username, password: req.body.password });
+    const foundUser = await User.findOne({ username: username, password: passwordMd5 });
     if (foundUser) {
         return { statusCode: 409, data: "Conflict", message: "Email already exists" }
     }
@@ -33,16 +33,13 @@ export const userRegister = async (req) => {
 
 };
 
-export const confirmEmail = async (req) => {
-    const code = req.body.code;
-
-    req.action = 'confirmationEmail';
-    const attempts = await controlAttemptsMiddleware(req);
+export const confirmEmail = async (username, code) => {
+    const action = 'confirmationEmail';
+    const attempts = await controlAttemptsMiddleware(username, action);
     if (attempts.data) {
         return { statusCode: 429, data: attempts.data, message: attempts.message }
     }
-
-    const user = await User.findOne({ username: req.body.username, confirmationCode: code });
+    const user = await User.findOne({ username: username, confirmationCode: code });
     if (user) {
         user.isActive = true;
         await user.save();
@@ -53,41 +50,37 @@ export const confirmEmail = async (req) => {
 
 };
 
-export const resendConfirmationCode = async (req) => {
+export const resendConfirmationCode = async (username) => {
 
-    const authHeader = req.headers.authorization;
-    const parts = authHeader.split(' ');
-    const token = parts[1];
-    const decodedToken = jwt.decode(token, { complete: true });
-    const user = await User.findById(decodedToken.payload.id).select('-password');
+    const foundUser = await User.findOne({ username: username }).select('-password');
 
-    if (user.isActive) {
+    if (foundUser.isActive) {
         return { statusCode: 409, data: "Conflict", message: "User is already active"}
     }
 
-    req.action = 'resend';
-    const attempts = await controlAttemptsMiddleware(req);
+    const action = 'resend';
+    const attempts = await controlAttemptsMiddleware(foundUser.username, action);
     if (attempts.data) {
         return { statusCode: 429, data: attempts.data, message: attempts.message}
     }
 
-    user.confirmationCode = generateCode();
-    await user.save();
-    await sendConfirmationEmail(user);
-    return { statusCode: 200, data: user, message: "Confirmation code resent successfully"}
+    foundUser.confirmationCode = generateCode();
+    await foundUser.save();
+    await sendEmail(foundUser, "Código de Confirmação - HYDRA", confirmationTemplate);
+    return { statusCode: 200, data: "", message: "Confirmation code resent successfully"}
 
 };
 
-export const sendPassRecovery = async (req) => {
+export const sendPassRecovery = async (username) => {
     const code = generateCode();
 
-    const foundUser = await User.findOne({ username: req.body.username }).select('-password');
+    const foundUser = await User.findOne({ username: username }).select('-password');
     if (!foundUser) {
         return { statusCode: 404, data: "Email not found", message: "Email is not registered!"}
     }
 
-    req.action = 'resendRecovery';
-    const attempts = await controlAttemptsMiddleware(req);
+    const action = 'resendRecovery';
+    const attempts = await controlAttemptsMiddleware(username, action);
     if (attempts.data) {
         return { statusCode: 429, data: attempts.data, message: attempts.message}
     }
@@ -104,16 +97,16 @@ export const sendPassRecovery = async (req) => {
 
 };
 
-export const confirmRecoveryPassCode = async (req) => {
-    const code = req.body.code;
+export const confirmRecoveryPassCode = async (code, username) => {
 
-    req.action = 'confirmationPassRecovery';
-    const attempts = await controlAttemptsMiddleware(req);
+    const action = 'confirmationPassRecovery';
+    const attempts = await controlAttemptsMiddleware(username, action);
+
     if (attempts.data) {
         return { statusCode: 429, data: attempts.data, message: attempts.message}
     }
 
-    const user = await User.findOne({ username: req.body.username, recoveryCode: code }).select('-password');
+    const user = await User.findOne({ username: username, recoveryCode: code }).select('-password');
     if (user) {
         if (user.isRecoveryCodeRecent()) {
             user.isPassChangeAllowed = true;
@@ -128,13 +121,13 @@ export const confirmRecoveryPassCode = async (req) => {
 
 };
 
-export const userRecoveryPass = async (req) => {
+export const userRecoveryPass = async (password, confirmpassword, username ) => {
 
-    const user = await User.findOne({ username: req.body.username }).select('-password');
+    const user = await User.findOne({ username: username }).select('-password');
     if (user) {
         if (user.isPassChangeAllowed) {
-            const password1 = req.body.password;
-            const password2 = req.body.confirmpassword;
+            const password1 = password;
+            const password2 = confirmpassword;
         
             if(password1 != password2) {
                 return { statusCode: 401, data: "Unauthenticated", message: "Passwords didnt match!"}

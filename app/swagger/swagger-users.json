@@ -15,7 +15,7 @@
                 "properties": {
                   "username": {
                     "type": "string",
-                    "description": "Nome de usuário"
+                    "description": "Email do usuário"
                   },
                   "password": {
                     "type": "string",
@@ -67,7 +67,7 @@
                 "properties": {
                   "username": {
                     "type": "string",
-                    "description": "Nome de usuário"
+                    "description": "Email do usuário"
                   },
                   "code": {
                     "type": "string",
@@ -117,7 +117,7 @@
                 "properties": {
                   "username": {
                     "type": "string",
-                    "description": "Nome de usuário"
+                    "description": "Email do usuário"
                   },
                   "password": {
                     "type": "string",
@@ -176,7 +176,7 @@
                 "properties": {
                   "username": {
                     "type": "string",
-                    "description": "Nome de usuário para quem o email de recuperação será enviado"
+                    "description": "Email do usuário para quem o email de recuperação será enviado"
                   }
                 },
                 "required": [
@@ -220,7 +220,7 @@
                 "properties": {
                   "username": {
                     "type": "string",
-                    "description": "Nome de usuário"
+                    "description": "Email do usuário"
                   },
                   "code": {
                     "type": "string",
@@ -259,17 +259,33 @@
       }
     },
     "/resendcode": {
-      "get": {
+      "post": {
         "tags": [
           "User"
         ],
-        "security": [
-          {
-            "authorization": []
-          }
-        ],
         "summary": "Resend confirmation code",
         "description": "Reenvia o código de confirmação para o usuário não ativo.",
+        "requestBody": {
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "username": {
+                    "type": "string",
+                    "description": "Email do usuário"
+                  }
+                },
+                "required": [
+                  "username"
+                ],
+                "example": {
+                  "username": "user@example.com"
+                }
+              }
+            }
+          }
+        },
         "responses": {
           "200": {
             "description": "Confirmation code resent successfully"

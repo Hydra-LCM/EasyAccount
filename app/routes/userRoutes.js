@@ -10,6 +10,6 @@ router.post('/confirmemail', userController.confirmEmailController);
 router.post('/passrecovery', userController.sendPassRecovery);
 router.post('/confirmpassrecovery', userController.confirmRecoveryPassCode);
 router.post('/user/recoverypass', userController.userRecoveryPass);
-router.get('/resendcode', authenticateToken, userController.resendConfirmationCodeController);
+router.post('/resendcode', userController.resendConfirmationCodeController);
 
 export default router;
