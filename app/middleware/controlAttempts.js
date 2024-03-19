@@ -5,8 +5,6 @@ dotenv.config();
 
 const controlAttemptsMiddleware = async (username, action) => {
 
-    return {data: false};
-
     const limitAttempts = process.env.LIMIT_ATTEMPTS;
     const timeAttempts = process.env.TIME_ATTEMPTS;
     await ConfirmationAttempt.create({ username: username, action: action });
