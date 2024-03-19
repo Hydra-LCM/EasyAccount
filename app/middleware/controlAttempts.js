@@ -3,13 +3,14 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-const controlAttemptsMiddleware = async (req) => {
+const controlAttemptsMiddleware = async (username, action) => {
+
+    return {data: false};
 
     const limitAttempts = process.env.LIMIT_ATTEMPTS;
     const timeAttempts = process.env.TIME_ATTEMPTS;
-    const action = req.action;
-    await ConfirmationAttempt.create({ username: req.body.username, action: action });
-    const attempts = await ConfirmationAttempt.find({ username: req.body.username, action }).sort({ timestamp: -1 }).limit(limitAttempts);
+    await ConfirmationAttempt.create({ username: username, action: action });
+    const attempts = await ConfirmationAttempt.find({ username: username, action }).sort({ timestamp: -1 }).limit(limitAttempts);
 
     if (attempts.length >= limitAttempts) {
         const lastAttemptTime = attempts[0].timestamp.getTime();
