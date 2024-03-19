@@ -48,5 +48,10 @@ export const confirmRecoveryPassCode = async (req, res) => {
 };
 
 export const userRecoveryPass = async (req, res) => {
-    userService.userRecoveryPass(req, res);
+    try {
+        const { statusCode, data, message } = await userService.userRecoveryPass(req);
+        sendResponse(res, statusCode, data, message);
+    } catch (error) {
+        sendResponse(res, error.statusCode, error.name, error.message);
+    }
 };
