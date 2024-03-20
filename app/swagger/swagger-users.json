@@ -20,10 +20,6 @@
                   "password": {
                     "type": "string",
                     "description": "Senha do usuário"
-                  },
-                  "role": {
-                    "type": "string",
-                    "description": "Função do usuário no sistema"
                   }
                 },
                 "required": [
@@ -32,8 +28,7 @@
                 ],
                 "example": {
                   "username": "newuser@example.com",
-                  "password": "password123",
-                  "role": "user"
+                  "password": "password123"
                 }
               }
             }

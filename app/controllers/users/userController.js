@@ -2,9 +2,9 @@ import * as userService from '../../services/userService.js';
 import sendResponse  from "../../utils/response.js";
 
 export const registerController = async (req, res) => {
-    const { username, password, role } = req.body;
+    const { username, password } = req.body;
     try {
-        const { statusCode, data, message } = await userService.userRegister(username, password, role);
+        const { statusCode, data, message } = await userService.userRegister(username, password);
         sendResponse(res, statusCode, data, message);
     } catch (error) {
         sendResponse(res, 400, error.name, error.message);

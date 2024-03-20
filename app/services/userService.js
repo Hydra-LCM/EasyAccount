@@ -7,14 +7,13 @@ import { confirmationTemplate } from "../assets/emails/emailsTemplate.js";
 import controlAttemptsMiddleware from '../middleware/controlAttempts.js'
 import { recoveryPassTemplate } from "../assets/emails/emailsTemplate.js";
 
-export const userRegister = async (username, password, role) => {
+export const userRegister = async (username, password) => {
     const passwordMd5 = md5(password);
     const code = generateCode();
 
     const newUser = new User({
         username: username,
         password: passwordMd5,
-        role: role,
         confirmationCode: code,       
     });
 
