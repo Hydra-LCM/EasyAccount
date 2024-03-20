@@ -17,7 +17,7 @@ export const userRegister = async (username, password) => {
         confirmationCode: code,       
     });
 
-    const foundUser = await User.findOne({ username: username, password: passwordMd5 });
+    const foundUser = await User.findOne({ username: username });
     if (foundUser) {
         return { statusCode: 409, data: "Conflict", message: "Email already exists" }
     }
