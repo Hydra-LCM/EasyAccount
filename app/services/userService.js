@@ -1,5 +1,4 @@
 import User from "../models/userModel.js";
-import jwt from "jsonwebtoken";
 import md5 from "md5";
 import sendEmail from '../utils/email.js';
 import generateCode from "../utils/generateCode.js";
