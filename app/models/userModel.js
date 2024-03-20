@@ -11,8 +11,9 @@ const userSchema = new Schema({
         required: true
     },
     role: {
-        type: Number,
-        default: 0
+        type: String,
+        enum: ['admin', 'mod', 'client'],
+        default: 'client'
     },
     personalKey: {
         type: String,
