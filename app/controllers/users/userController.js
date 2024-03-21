@@ -7,7 +7,7 @@ export const registerController = async (req, res) => {
         const { statusCode, data, message } = await userService.userRegister(username, password);
         sendResponse(res, statusCode, data, message);
     } catch (error) {
-        sendResponse(res, 400, error.name, error.message);
+        sendResponse(res, 500, error.name, error.message);
     }
 
 };
@@ -18,7 +18,7 @@ export const confirmEmailController = async (req, res) => {
         const { statusCode, data, message } = await userService.confirmEmail(username, code);
         sendResponse(res, statusCode, data, message);
     } catch (error) {
-        sendResponse(res, 400, error.name, error.message);
+        sendResponse(res, 500, error.name, error.message);
     }
 };
 
@@ -28,7 +28,7 @@ export const resendConfirmationCodeController = async (req, res) => {
         const { statusCode, data, message } = await userService.resendConfirmationCode(username);
         sendResponse(res, statusCode, data, message);
     } catch (error) {
-        sendResponse(res, 400, error.name, error.message);
+        sendResponse(res, 500, error.name, error.message);
     }
 };
 
@@ -38,7 +38,7 @@ export const sendPassRecovery = async (req, res) => {
         const { statusCode, data, message } = await userService.sendPassRecovery(username);
         sendResponse(res, statusCode, data, message);
     } catch (error) {
-        sendResponse(res, 400, error.name, error.message);
+        sendResponse(res, 500, error.name, error.message);
     }
 };
 
@@ -48,7 +48,7 @@ export const confirmRecoveryPassCode = async (req, res) => {
         const { statusCode, data, message } = await userService.confirmRecoveryPassCode(code, username);
         sendResponse(res, statusCode, data, message);
     } catch (error) {
-        sendResponse(res, 400, error.name, error.message);
+        sendResponse(res, 500, error.name, error.message);
     }
 };
 
@@ -58,6 +58,6 @@ export const userRecoveryPass = async (req, res) => {
         const { statusCode, data, message } = await userService.userRecoveryPass(password, confirmpassword, username );
         sendResponse(res, statusCode, data, message);
     } catch (error) {
-        sendResponse(res, 400, error.name, error.message);
+        sendResponse(res, 500, error.name, error.message);
     }
 };
