@@ -42,6 +42,7 @@ const userSchema = new Schema({
     },
     language: {
         type: String,
+        enum: ['pt', 'en', 'es'],
         default: 'pt'
     }
 });
