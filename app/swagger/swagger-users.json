@@ -6,7 +6,7 @@
           "User"
         ],
         "summary": "User registration",
-        "description": "Registra um novo usuário com username, password e role. Envia um código de verificação por e-mail.",
+        "description": "Registra um novo usuário com username, password. Envia um código de verificação por e-mail.",
         "requestBody": {
           "content": {
             "application/x-www-form-urlencoded": {

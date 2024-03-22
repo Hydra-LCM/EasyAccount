@@ -15,7 +15,7 @@
                 "properties": {
                   "username": {
                     "type": "string",
-                    "description": "Nome de usuário"
+                    "description": "Email do usuário"
                   },
                   "password": {
                     "type": "string",
