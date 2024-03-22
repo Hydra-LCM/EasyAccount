@@ -39,9 +39,13 @@ export const confirmEmail = async (username, code) => {
     }
     const user = await User.findOne({ username: username, confirmationCode: code });
     if (user) {
-        user.isActive = true;
-        await user.save();
-        return { statusCode: 200, data: null, message: "Email confirmed successfully!"}
+        if (user.isConfirmationCodeRecent()) {
+            user.isActive = true;
+            await user.save();
+            return { statusCode: 200, data: null, message: "Email confirmed successfully!"}
+        } else {
+            return { statusCode: 410, data: "Expired", message: "Expirated code, ask for another"}
+        }
     } else {
         return { statusCode: 404, data: code, message: "Wrong code!"}
     }
