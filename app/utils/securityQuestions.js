@@ -1,4 +1,3 @@
-// securityQuestions.js
 export const securityQuestions = [
     { 
       id: 1, 

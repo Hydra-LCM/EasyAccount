@@ -61,3 +61,43 @@ export const userRecoveryPass = async (req, res) => {
         sendResponse(res, 500, error.name, error.message);
     }
 };
+
+export const getSecurityQuestions = async (req, res) => {
+    const { language } = req.body;
+    try {
+        const { statusCode, data, message } = await userService.getSecurityQuestions(language);
+        sendResponse(res, statusCode, data, message);
+    } catch (error) {
+        sendResponse(res, 500, error.name, error.message);
+    }
+};
+
+export const addSecurityQuestions = async (req, res) => {
+    const { questionID, answer, username } = req.body;
+    try {
+        const { statusCode, data, message } = await userService.addSecurityQuestions(questionID, answer, username);
+        sendResponse(res, statusCode, data, message);
+    } catch (error) {
+        sendResponse(res, 500, error.name, error.message);
+    }
+};
+
+export const checkSecurityQuestionAnswer = async (req, res) => {
+    const { questionID, answer, username } = req.body;
+    try {
+        const { statusCode, data, message } = await userService.checkSecurityQuestionAnswer(questionID, answer, username);
+        sendResponse(res, statusCode, data, message);
+    } catch (error) {
+        sendResponse(res, 500, error.name, error.message);
+    }
+};
+
+export const userRecoveryEmail = async (req, res) => {
+    const { email, confirmEmail, username } = req.body;
+    try {
+        const { statusCode, data, message } = await userService.userRecoveryEmail(email, confirmEmail, username );
+        sendResponse(res, statusCode, data, message);
+    } catch (error) {
+        sendResponse(res, 500, error.name, error.message);
+    }
+};

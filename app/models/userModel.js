@@ -1,7 +1,17 @@
 import { Schema, model } from 'mongoose';
 import bcrypt from 'bcrypt';
-import securityQuestionSchema from './securityQuestions';
-import { securityQuestions } from '../utils/securityQuestions';
+import { securityQuestions } from '../utils/securityQuestions.js';
+
+const securityQuestionSchema = new Schema({
+    questionId: {
+        type: Number,
+        required: true,
+    },
+    answerHash: {
+        type: String,
+        required: true,
+    }
+});
 
 const userSchema = new Schema({
     username: { //email
@@ -47,6 +57,10 @@ const userSchema = new Schema({
         type: Boolean,
         default: false
     },
+    isEmailChangeAllowed: {
+        type: Boolean,
+        default: false
+    },
     language: {
         type: String,
         enum: ['pt', 'en', 'es'],
@@ -84,10 +98,11 @@ userSchema.methods.isRecoveryCodeRecent = function () {
 userSchema.methods.addSecurityQuestion = function(questionId, answer) {
     const answerHash = bcrypt.hashSync(answer, 12);
     this.securityQuestions.push({ questionId, answerHash });
+    return true;
 };
 
 userSchema.methods.checkSecurityAnswer = function(questionId, answer) {
-    const questionObj = this.securityQuestions.find(q => q.questionId === questionId);
+    const questionObj = this.securityQuestions.find(q => q.questionId == questionId);
     if (!questionObj) return false;
     return bcrypt.compareSync(answer, questionObj.answerHash);
 };
