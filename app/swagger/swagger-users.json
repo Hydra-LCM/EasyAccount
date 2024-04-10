@@ -296,6 +296,261 @@
           }
         }
       }
+    },
+    "/security-questions/check": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Resend confirmation code",
+        "description": "Reenvia o código de confirmação para o usuário não ativo.",
+        "requestBody": {
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "username": {
+                    "type": "string",
+                    "description": "Email do usuário"
+                  },"questionID": {
+                    "type": "string",
+                    "description": "Id da pergunta"
+                  },"answer": {
+                    "type": "string",
+                    "description": "Resposta da pergunta"
+                  }
+                },
+                "required": [
+                  "username",
+                  "questionID",
+                  "answer"
+                ],
+                "example": {
+                  "username": "user@example.com",
+                  "questionID": "1",
+                  "answer": "Amarelo"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Question correct, allowed to change email"
+          },
+          "500": {
+            "description": "Bad request"
+          },
+          "404": {
+            "description": "User not found!"
+          },
+          "409": {
+            "description": "User is already allowed to change email"
+          },
+          "429": {
+            "description": "Too many attempts"
+          }
+        }
+      }
+    },
+    "/security-questions/get": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Get questions list",
+        "description": "Obtém lista de perguntas na linguagem do usuário",
+        "requestBody": {
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "language": {
+                    "type": "string",
+                    "description": "Idioma da lista de perguntas"
+                  }
+                },
+                "required": [
+                  "language"
+                ],
+                "example": {
+                  "language": "pt"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Confirmation code resent successfully"
+          },
+          "500": {
+            "description": "Bad request"
+          },
+          "404": {
+            "description": "Questions not found, check language!"
+          }
+        }
+      }
+    },
+    "/security-questions": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Add a question answer to user",
+        "description": "Adiciona uma resposta de pergunta de seguraça ao usuário.",
+        "requestBody": {
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "username": {
+                    "type": "string",
+                    "description": "Email do usuário"
+                  },"questionID": {
+                    "type": "string",
+                    "description": "Id da pergunta"
+                  },"answer": {
+                    "type": "string",
+                    "description": "Resposta da pergunta"
+                  }
+                },
+                "required": [
+                  "username",
+                  "questionID",
+                  "answer"
+                ],
+                "example": {
+                  "username": "user@example.com",
+                  "questionID": "1",
+                  "answer": "Amarelo"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Confirmation code resent successfully"
+          },
+          "500": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/security-email": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Changes primary email",
+        "description": "Changes primary email after allowing it with security questions",
+        "requestBody": {
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "description": "Email secundário do usuário"
+                  },
+                  "confirmEmail": {
+                    "type": "string",
+                    "description": "Email secundário do usuário repetido"
+                  },
+                  "username": {
+                    "type": "string",
+                    "description": "Email do usuário"
+                  }
+                },
+                "required": [
+                  "email",
+                  "confimEmail",
+                  "username"
+                ],
+                "example": {
+                  "email": "usernewemail@example.com",
+                  "confimEmail": "usernewemail@example.com",
+                  "username": "user@example.com"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Confirmation code resent successfully"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "409": {
+            "description": "User already active"
+          },
+          "429": {
+            "description": "Too many attempts"
+          }
+        }
+      }
+    },
+    "/confirm-second-email": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Confirm user's second email",
+        "description": "Confirma o e-mail secundário do usuário utilizando um código de confirmação enviado previamente.",
+        "requestBody": {
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "description": "Email secundário do usuário"
+                  },
+                  "code": {
+                    "type": "string",
+                    "description": "Código de confirmação enviado por e-mail"
+                  }
+                },
+                "required": [
+                  "email",
+                  "code"
+                ],
+                "example": {
+                  "email": "user@example.com",
+                  "code": 123456
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Second email confirmed successfully!"
+          },
+          "410": {
+            "description": "Expirated code, ask for another"
+          },
+          "429": {
+            "description": "Too many attempts"
+          },
+          "404": {
+            "description": "Wrong code!"
+          },
+          "500": {
+            "description": "Bad request"
+          }
+        }
+      }
     }
   }
 }

@@ -153,6 +153,9 @@ export const getSecurityQuestions = async (language) => {
         id: question.id,
         question: question.question[language]
     }));
+    if(questionsInSelectedLanguage){
+        return { statusCode: 404, data: null, message: "Questions not found, check language!" }
+    }
     return { statusCode: 200, data: questionsInSelectedLanguage, message: "Questions" }
 };
 
@@ -178,11 +181,15 @@ export const addSecurityEmail = async ( email, username ) => {
 
 export const checkSecurityQuestionAnswer = async (questionID, answer, username ) => {
     const user = await User.findOne({ username: username }).select('-password');
+    if(!user) return { statusCode: 404, data: "User not found!", message: "User not found!" }
+    if (user.isEmailChangeAllowed) {
+        return { statusCode: 409, data: "Conflict", message: "User is already allowed to change email"}
+    }
     const action = 'checkQuestionAnswer';
     const attempts = await controlAttemptsMiddleware(username, action);
     if (attempts.data) {
         return { statusCode: 429, data: attempts.data, message: attempts.message}
-    }    
+    } 
     const allowed = user.checkSecurityAnswer(questionID, answer);
     if (allowed) {
         user.isEmailChangeAllowed = true;

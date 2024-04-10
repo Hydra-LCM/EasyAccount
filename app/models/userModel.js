@@ -23,7 +23,7 @@ const userSchema = new Schema({
         unique: true,
     },
     isSecondaryEmailConfirmed: {
-        type: boolen,
+        type: Boolean,
         default: false,
     },
     password: {
