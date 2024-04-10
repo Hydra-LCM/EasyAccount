@@ -100,7 +100,14 @@ userSchema.methods.isRecoveryCodeRecent = function () {
 
 userSchema.methods.addSecurityQuestion = function(questionId, answer) {
     const answerHash = bcrypt.hashSync(answer, 12);
-    this.securityQuestions.push({ questionId, answerHash });
+    const existingQuestion = this.securityQuestions.find(question => question.questionId === questionId);
+
+    if (existingQuestion) {
+        existingQuestion.answerHash = answerHash;
+    } else {
+        this.securityQuestions.push({ questionId, answerHash });
+    }
+
     return true;
 };
 
