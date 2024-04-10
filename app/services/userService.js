@@ -193,6 +193,7 @@ export const userRecoveryEmail = async ( email, confirmEmail, username ) => {
 
             user.username = email;
             user.isEmailChangeAllowed = false;
+            user.isActive = false;
             user.save();
             return { statusCode: 200, data: "Sucess", message: "Pass changed" }
         } else {
