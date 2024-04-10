@@ -39,6 +39,7 @@ export const confirmEmail = async (username, code) => {
         return { statusCode: 429, data: attempts.data, message: attempts.message }
     }
     const user = await User.findOne({ username: username, confirmationCode: code });
+    
     if (user) {
         if (user.isConfirmationCodeRecent()) {
             user.isActive = true;
@@ -50,7 +51,6 @@ export const confirmEmail = async (username, code) => {
     } else {
         return { statusCode: 404, data: code, message: "Wrong code!"}
     }
-
 };
 
 export const resendConfirmationCode = async (username) => {
@@ -158,9 +158,22 @@ export const getSecurityQuestions = async (language) => {
 
 export const addSecurityQuestions = async (questionID, answer, username ) => {
     const user = await User.findOne({ username: username }).select('-password');
-    const retorno = user.addSecurityQuestion(questionID, answer);
+    const data = user.addSecurityQuestion(questionID, answer);
     user.save();
-    return { statusCode: 200, data: retorno, message: "Question added" }
+    return { statusCode: 200, data: data, message: "Question added" }
+};
+
+export const addSecurityEmail = async ( email, username ) => {
+    const code = generateCode();
+    const user = await User.findOne({ username: username }).select('-password');
+    const existUserEmail = await User.findOne({ username: email }).select('-password');
+    if(existUserEmail) {
+        return { statusCode: 409, data: "Conflict", message: "Email already used!" }
+    }
+    user.confirmationCode = code;
+    const confirmationReturn = await sendEmail(savedUser, "Código de Confirmação - HYDRA", confirmationTemplate);
+    user.secondaryEmail = email;
+    return { statusCode: 200, data: confirmationReturn, message: "Security Email updated" }
 };
 
 export const checkSecurityQuestionAnswer = async (questionID, answer, username ) => {
@@ -178,7 +191,7 @@ export const checkSecurityQuestionAnswer = async (questionID, answer, username )
     return { statusCode: 200, data: allowed, message: "Question correct, allowed to change email" }
 };
 
-export const userRecoveryEmail = async ( email, confirmEmail, username ) => {
+export const userRecoveryEmailBySecurityQuestion = async ( email, confirmEmail, username ) => {
     const user = await User.findOne({ username: username }).select('-password');
     if (user) {
         if (user.isEmailChangeAllowed) {
@@ -203,4 +216,28 @@ export const userRecoveryEmail = async ( email, confirmEmail, username ) => {
         return { statusCode: 404, data: "User not found!", message: "User not found!" }
     }
 
+};
+
+
+export const confirmSecondEmail = async (email, code) => {
+
+    const user = await User.findOne({ secondaryEmail: email, confirmationCode: code });
+
+    const action = 'confirmationSecondEmail';
+    const attempts = await controlAttemptsMiddleware(user.username, action);
+    if (attempts.data) {
+        return { statusCode: 429, data: attempts.data, message: attempts.message }
+    }
+    
+    if (user) {
+        if (user.isConfirmationCodeRecent()) {
+            user.isSecondaryEmailConfirmed = true;
+            await user.save();
+            return { statusCode: 200, data: null, message: "Second email confirmed successfully!"}
+        } else {
+            return { statusCode: 410, data: "Expired", message: "Expirated code, ask for another"}
+        }
+    } else {
+        return { statusCode: 404, data: code, message: "Wrong code!"}
+    }
 };

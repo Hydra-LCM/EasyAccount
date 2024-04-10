@@ -22,6 +22,16 @@ export const confirmEmailController = async (req, res) => {
     }
 };
 
+export const confirmSecondEmailController = async (req, res) => {
+    const { email, code } = req.body;
+    try {
+        const { statusCode, data, message } = await userService.confirmSecondEmail(email, code);
+        sendResponse(res, statusCode, data, message);
+    } catch (error) {
+        sendResponse(res, 500, error.name, error.message);
+    }
+};
+
 export const resendConfirmationCodeController = async (req, res) => {
     const { username } = req.body;
     try {
@@ -82,6 +92,16 @@ export const addSecurityQuestions = async (req, res) => {
     }
 };
 
+export const addSecurityEmail = async (req, res) => {
+    const { email, username } = req.body;
+    try {
+        const { statusCode, data, message } = await userService.addSecurityEmail( email, username);
+        sendResponse(res, statusCode, data, message);
+    } catch (error) {
+        sendResponse(res, 500, error.name, error.message);
+    }
+};
+
 export const checkSecurityQuestionAnswer = async (req, res) => {
     const { questionID, answer, username } = req.body;
     try {
@@ -95,7 +115,7 @@ export const checkSecurityQuestionAnswer = async (req, res) => {
 export const userRecoveryEmail = async (req, res) => {
     const { email, confirmEmail, username } = req.body;
     try {
-        const { statusCode, data, message } = await userService.userRecoveryEmail(email, confirmEmail, username );
+        const { statusCode, data, message } = await userService.userRecoveryEmailBySecurityQuestion(email, confirmEmail, username );
         sendResponse(res, statusCode, data, message);
     } catch (error) {
         sendResponse(res, 500, error.name, error.message);

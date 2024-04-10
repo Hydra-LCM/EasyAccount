@@ -1,6 +1,5 @@
 import { Schema, model } from 'mongoose';
 import bcrypt from 'bcrypt';
-import { securityQuestions } from '../utils/securityQuestions.js';
 
 const securityQuestionSchema = new Schema({
     questionId: {
@@ -22,6 +21,10 @@ const userSchema = new Schema({
     secondaryEmail: {
         type: String,
         unique: true,
+    },
+    isSecondaryEmailConfirmed: {
+        type: boolen,
+        default: false,
     },
     password: {
         type: String,
