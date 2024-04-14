@@ -6,7 +6,7 @@
           "Authentication"
         ],
         "summary": "User login",
-        "description": "Login de usuário com username e password. Controla tentativas de login e verifica se o usuário está ativo ou bloqueado para login.",
+        "description": "Login de usuário com email e password. Controla tentativas de login e verifica se o usuário está ativo ou bloqueado para login.",
         "requestBody": {
           "content": {
             "application/x-www-form-urlencoded": {
@@ -61,7 +61,7 @@
             "description": "Unauthorized, user needs to confirm email or is blocked but can change password"
           },
           "403": {
-            "description": "Forbidden, invalid username or password"
+            "description": "Forbidden, invalid email or password"
           }
         }
       }
