@@ -443,7 +443,7 @@
         }
       }
     },
-    "/security-email": {
+    "/security-change-email": {
       "post": {
         "tags": [
           "User"
@@ -471,7 +471,7 @@
                 },
                 "required": [
                   "email",
-                  "confimEmail",
+                  "confirmEmail",
                   "username"
                 ],
                 "example": {

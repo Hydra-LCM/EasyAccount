@@ -149,11 +149,11 @@ export const userRecoveryPass = async (password, confirmpassword, username ) => 
 };
 
 export const getSecurityQuestions = async (language) => {
-    const questionsInSelectedLanguage = securityQuestions.map(question => ({
-        id: question.id,
-        question: question.question[language]
+    const questionsInSelectedLanguage = securityQuestions.map(obj => ({
+        id: obj.id,
+        question: obj.question[language]
     }));
-    if(questionsInSelectedLanguage){
+    if(!questionsInSelectedLanguage){
         return { statusCode: 404, data: null, message: "Questions not found, check language!" }
     }
     return { statusCode: 200, data: questionsInSelectedLanguage, message: "Questions" }
@@ -215,8 +215,10 @@ export const userRecoveryEmailBySecurityQuestion = async ( email, confirmEmail, 
             user.username = email;
             user.isEmailChangeAllowed = false;
             user.isActive = false;
+            user.confirmationCode = generateCode();
+            await sendEmail(user, "Código de Confirmação - HYDRA", confirmationTemplate);
             user.save();
-            return { statusCode: 200, data: "Sucess", message: "Pass changed" }
+            return { statusCode: 200, data: "Sucess", message: "Email changed, please confirm your new email" }
         } else {
             return { statusCode: 403, data: "Unauthorized", message: "User not allowed to change Email" }
         }
