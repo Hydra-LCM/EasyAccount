@@ -161,7 +161,7 @@ export const getSecurityQuestions = async (language) => {
 
 export const addSecurityQuestions = async (questionID, answer, username ) => {
     const user = await User.findOne({ username: username }).select('-password');
-    const data = user.addSecurityQuestion(questionID, answer);
+    const data = user.addSecurityQuestion(questionID, answer.toLowerCase());
     user.save();
     return { statusCode: 200, data: data, message: "Question added" }
 };
@@ -180,6 +180,7 @@ export const addSecurityEmail = async ( email, username ) => {
 };
 
 export const checkSecurityQuestionAnswer = async (questionID, answer, username ) => {
+    const lowerAnswer = answer.toLowerCase();
     const user = await User.findOne({ username: username }).select('-password');
     if(!user) return { statusCode: 404, data: "User not found!", message: "User not found!" }
     if (user.isEmailChangeAllowed) {
@@ -190,7 +191,7 @@ export const checkSecurityQuestionAnswer = async (questionID, answer, username )
     if (attempts.data) {
         return { statusCode: 429, data: attempts.data, message: attempts.message}
     } 
-    const allowed = user.checkSecurityAnswer(questionID, answer);
+    const allowed = user.checkSecurityAnswer(questionID, lowerAnswer);
     if (allowed) {
         user.isEmailChangeAllowed = true;
         user.save();
